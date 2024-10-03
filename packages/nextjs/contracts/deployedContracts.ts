@@ -11,14 +11,40 @@ const deployedContracts = {
       abi: [
         {
           inputs: [],
-          stateMutability: "nonpayable",
-          type: "constructor",
+          name: "InvalidOperationAtThisSubmissionStage",
+          type: "error",
         },
         {
           inputs: [
             {
               internalType: "uint256",
-              name: "id",
+              name: "submissionId",
+              type: "uint256",
+            },
+          ],
+          name: "accept",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "submissionId",
+              type: "uint256",
+            },
+          ],
+          name: "approveSubmission",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "submissionId",
               type: "uint256",
             },
             {
@@ -33,27 +59,14 @@ const deployedContracts = {
           type: "function",
         },
         {
-          inputs: [],
-          name: "editor",
-          outputs: [
-            {
-              internalType: "address",
-              name: "",
-              type: "address",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
           inputs: [
             {
               internalType: "uint256",
-              name: "id",
+              name: "submissionId",
               type: "uint256",
             },
           ],
-          name: "getPaper",
+          name: "getSubmission",
           outputs: [
             {
               components: [
@@ -83,11 +96,6 @@ const deployedContracts = {
                   type: "address",
                 },
                 {
-                  internalType: "address",
-                  name: "editor",
-                  type: "address",
-                },
-                {
                   internalType: "uint256[]",
                   name: "revisions",
                   type: "uint256[]",
@@ -114,11 +122,6 @@ const deployedContracts = {
                   name: "comments",
                   type: "tuple[]",
                 },
-                {
-                  internalType: "enum ReviewDecision[]",
-                  name: "decisions",
-                  type: "uint8[]",
-                },
               ],
               internalType: "struct SubmissionResponse",
               name: "",
@@ -132,51 +135,90 @@ const deployedContracts = {
           inputs: [
             {
               internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-          ],
-          name: "submissions",
-          outputs: [
-            {
-              internalType: "enum SubmissionStage",
-              name: "stage",
-              type: "uint8",
-            },
-            {
-              internalType: "uint256",
-              name: "id",
+              name: "submissionId",
               type: "uint256",
             },
             {
-              internalType: "string",
-              name: "title",
-              type: "string",
-            },
-            {
-              internalType: "string",
-              name: "description",
-              type: "string",
-            },
-            {
-              internalType: "address",
-              name: "author",
-              type: "address",
-            },
-            {
-              internalType: "address",
-              name: "editor",
-              type: "address",
+              internalType: "address[]",
+              name: "reviewers",
+              type: "address[]",
             },
           ],
-          stateMutability: "view",
+          name: "proposeReviewers",
+          outputs: [],
+          stateMutability: "nonpayable",
           type: "function",
         },
         {
           inputs: [
             {
               internalType: "uint256",
-              name: "mid",
+              name: "submissionId",
+              type: "uint256",
+            },
+          ],
+          name: "qualifySubmission",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "submissionId",
+              type: "uint256",
+            },
+          ],
+          name: "reject",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "submissionId",
+              type: "uint256",
+            },
+          ],
+          name: "rejectSubmission",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "submissionId",
+              type: "uint256",
+            },
+          ],
+          name: "rejectWhenFiltering",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "submissionId",
+              type: "uint256",
+            },
+          ],
+          name: "revise",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "paperId",
               type: "uint256",
             },
             {
@@ -191,6 +233,24 @@ const deployedContracts = {
             },
           ],
           name: "submitPaper",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "submissionId",
+              type: "uint256",
+            },
+            {
+              internalType: "enum Recommendation",
+              name: "rec",
+              type: "uint8",
+            },
+          ],
+          name: "submitReview",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
