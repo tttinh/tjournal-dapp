@@ -10,5 +10,15 @@ import "./journal/Reviewer.sol";
  * @author TinhTT
  */
 contract Journal is JAuthor, JEditor, JReviewer {
-
+	/// @dev Make a comment on a submission.
+	function comment(
+		uint256 submissionId,
+		string memory content
+	) external validUser validSubmissionId(submissionId) {
+		Submission storage s = submissions[submissionId - 1];
+		Comment storage c = s.comments.push();
+		c.content = content;
+		c.createdAt = block.timestamp;
+		c.createdBy = users[msg.sender];
+	}
 }

@@ -20,11 +20,27 @@ enum Recommendation {
 	REVISION
 }
 
+/// @dev Different roles in our journal.
+enum Role {
+	EIC,
+	AREA_EDITOR,
+	ASSOCIATE_EDITOR,
+	REVIEWER,
+	AUTHOR
+}
+
+/// @dev A struct that holds user's information.
+struct Profile {
+	address id;
+	string name;
+	Role role;
+}
+
 /// @dev Comment represents a comment for a submission.
 struct Comment {
-	uint256 createdAt;
-	address createdBy;
 	string content;
+	uint256 createdAt;
+	Profile createdBy;
 }
 
 /// @dev Submission is the core entity of the system. It represents a

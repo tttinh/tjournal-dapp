@@ -11,8 +11,37 @@ const deployedContracts = {
       abi: [
         {
           inputs: [],
-          name: "InvalidOperationAtThisSubmissionStage",
+          name: "AlreadyRegistered",
           type: "error",
+        },
+        {
+          inputs: [],
+          name: "BadStage",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "Forbidden",
+          type: "error",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "setter",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "newName",
+              type: "string",
+            },
+          ],
+          name: "NameChange",
+          type: "event",
         },
         {
           inputs: [
@@ -61,6 +90,42 @@ const deployedContracts = {
         {
           inputs: [
             {
+              internalType: "address",
+              name: "user",
+              type: "address",
+            },
+          ],
+          name: "getProfile",
+          outputs: [
+            {
+              components: [
+                {
+                  internalType: "address",
+                  name: "id",
+                  type: "address",
+                },
+                {
+                  internalType: "string",
+                  name: "name",
+                  type: "string",
+                },
+                {
+                  internalType: "enum Role",
+                  name: "role",
+                  type: "uint8",
+                },
+              ],
+              internalType: "struct Profile",
+              name: "",
+              type: "tuple",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
               internalType: "uint256",
               name: "submissionId",
               type: "uint256",
@@ -103,19 +168,36 @@ const deployedContracts = {
                 {
                   components: [
                     {
+                      internalType: "string",
+                      name: "content",
+                      type: "string",
+                    },
+                    {
                       internalType: "uint256",
                       name: "createdAt",
                       type: "uint256",
                     },
                     {
-                      internalType: "address",
+                      components: [
+                        {
+                          internalType: "address",
+                          name: "id",
+                          type: "address",
+                        },
+                        {
+                          internalType: "string",
+                          name: "name",
+                          type: "string",
+                        },
+                        {
+                          internalType: "enum Role",
+                          name: "role",
+                          type: "uint8",
+                        },
+                      ],
+                      internalType: "struct Profile",
                       name: "createdBy",
-                      type: "address",
-                    },
-                    {
-                      internalType: "string",
-                      name: "content",
-                      type: "string",
+                      type: "tuple",
                     },
                   ],
                   internalType: "struct Comment[]",
@@ -126,6 +208,25 @@ const deployedContracts = {
               internalType: "struct SubmissionResponse",
               name: "",
               type: "tuple",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "string",
+              name: "name",
+              type: "string",
+            },
+          ],
+          name: "isAvailable",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
             },
           ],
           stateMutability: "view",
@@ -158,6 +259,19 @@ const deployedContracts = {
             },
           ],
           name: "qualifySubmission",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "string",
+              name: "name",
+              type: "string",
+            },
+          ],
+          name: "register",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
@@ -210,6 +324,19 @@ const deployedContracts = {
             },
           ],
           name: "revise",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "string",
+              name: "newName",
+              type: "string",
+            },
+          ],
+          name: "setName",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",

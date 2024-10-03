@@ -14,7 +14,10 @@ contract JAuthor is JBase {
 		uint256 paperId,
 		string calldata title,
 		string calldata description
-	) external {
+	) external validUser {
+		Profile storage u = users[msg.sender];
+		if (u.role != Role.AUTHOR) revert Forbidden();
+
 		Submission storage s = submissions.push();
 		s.stage = SubmissionStage.SUBMITTED;
 		s.id = submissions.length;
