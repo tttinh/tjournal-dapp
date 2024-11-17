@@ -11,12 +11,14 @@ contract JAuthor is JBase {
 
 	/// @dev An author submits a new paper.
 	function submitPaper(
-		uint256 paperId,
+		string calldata uri,
 		string calldata title,
 		string calldata description
 	) external validUser {
 		Profile storage u = users[msg.sender];
 		if (u.role != Role.AUTHOR) revert Forbidden();
+
+		uint256 paperId = manuscript.mint(uri);
 
 		Submission storage s = submissions.push();
 		s.stage = SubmissionStage.SUBMITTED;

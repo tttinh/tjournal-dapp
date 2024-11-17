@@ -3,6 +3,7 @@ pragma solidity >=0.8.0 <0.9.0;
 
 import "./Types.sol";
 import "./User.sol";
+import "../Manuscript.sol";
 
 /// @title Base contract for Journal. Holds base variables and methods.
 /// @author Tinh Tran
@@ -15,8 +16,11 @@ contract JBase is JUser {
 	/// of each submission is actually an index into this array.
 	/// Note that ID 0 is invalid.
 	Submission[] submissions;
+	Manuscript manuscript;
 
-	constructor() {}
+	constructor() {
+		manuscript = new Manuscript();
+	}
 
 	/// @dev Change the current stage to the new one after an operation.
 	modifier nextStage(uint256 submissionId, SubmissionStage next) {
