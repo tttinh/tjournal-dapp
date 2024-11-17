@@ -20,11 +20,6 @@ const deployedContracts = {
           type: "error",
         },
         {
-          inputs: [],
-          name: "Forbidden",
-          type: "error",
-        },
-        {
           anonymous: false,
           inputs: [
             {
@@ -99,6 +94,25 @@ const deployedContracts = {
             {
               indexed: true,
               internalType: "address",
+              name: "previousOwner",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "newOwner",
+              type: "address",
+            },
+          ],
+          name: "OwnershipTransferred",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
               name: "from",
               type: "address",
             },
@@ -129,13 +143,8 @@ const deployedContracts = {
               name: "submissionId",
               type: "uint256",
             },
-            {
-              internalType: "string",
-              name: "uri",
-              type: "string",
-            },
           ],
-          name: "addRevision",
+          name: "accept",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
@@ -143,22 +152,25 @@ const deployedContracts = {
         {
           inputs: [
             {
-              internalType: "string",
-              name: "uri",
-              type: "string",
-            },
-            {
-              internalType: "string",
-              name: "title",
-              type: "string",
-            },
-            {
-              internalType: "string",
-              name: "description",
-              type: "string",
+              internalType: "address",
+              name: "editor",
+              type: "address",
             },
           ],
-          name: "addSubmission",
+          name: "addAreaEditor",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "editor",
+              type: "address",
+            },
+          ],
+          name: "addAssociateEditor",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
@@ -184,6 +196,62 @@ const deployedContracts = {
         {
           inputs: [
             {
+              internalType: "uint256",
+              name: "submissionId",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "areaEditorId",
+              type: "uint256",
+            },
+          ],
+          name: "approveSubmission",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "areaEditors",
+          outputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "associateEditors",
+          outputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
               internalType: "address",
               name: "owner",
               type: "address",
@@ -198,6 +266,37 @@ const deployedContracts = {
             },
           ],
           stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "chiefEditor",
+          outputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "submissionId",
+              type: "uint256",
+            },
+            {
+              internalType: "string",
+              name: "content",
+              type: "string",
+            },
+          ],
+          name: "comment",
+          outputs: [],
+          stateMutability: "nonpayable",
           type: "function",
         },
         {
@@ -241,15 +340,48 @@ const deployedContracts = {
                   name: "name",
                   type: "string",
                 },
-                {
-                  internalType: "enum Role",
-                  name: "role",
-                  type: "uint8",
-                },
               ],
               internalType: "struct Profile",
               name: "",
               type: "tuple",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "editor",
+              type: "address",
+            },
+          ],
+          name: "getSubmissionByAreaEditor",
+          outputs: [
+            {
+              internalType: "uint256[]",
+              name: "",
+              type: "uint256[]",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "editor",
+              type: "address",
+            },
+          ],
+          name: "getSubmissionByAssociateEditor",
+          outputs: [
+            {
+              internalType: "uint256[]",
+              name: "",
+              type: "uint256[]",
             },
           ],
           stateMutability: "view",
@@ -340,11 +472,6 @@ const deployedContracts = {
                           name: "name",
                           type: "string",
                         },
-                        {
-                          internalType: "enum Role",
-                          name: "role",
-                          type: "uint8",
-                        },
                       ],
                       internalType: "struct Profile",
                       name: "createdBy",
@@ -421,6 +548,19 @@ const deployedContracts = {
           type: "function",
         },
         {
+          inputs: [],
+          name: "owner",
+          outputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
           inputs: [
             {
               internalType: "uint256",
@@ -442,12 +582,107 @@ const deployedContracts = {
         {
           inputs: [
             {
+              internalType: "uint256",
+              name: "submissionId",
+              type: "uint256",
+            },
+            {
+              internalType: "address[]",
+              name: "reviewers",
+              type: "address[]",
+            },
+          ],
+          name: "proposeReviewers",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "submissionId",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "associateEditorId",
+              type: "uint256",
+            },
+          ],
+          name: "qualifySubmission",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
               internalType: "string",
               name: "name",
               type: "string",
             },
           ],
           name: "register",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "submissionId",
+              type: "uint256",
+            },
+          ],
+          name: "reject",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "submissionId",
+              type: "uint256",
+            },
+          ],
+          name: "rejectSubmission",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "submissionId",
+              type: "uint256",
+            },
+          ],
+          name: "rejectWhenFiltering",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "renounceOwnership",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "submissionId",
+              type: "uint256",
+            },
+          ],
+          name: "revise",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
@@ -524,12 +759,84 @@ const deployedContracts = {
         {
           inputs: [
             {
+              internalType: "address",
+              name: "eic",
+              type: "address",
+            },
+          ],
+          name: "setEIC",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
               internalType: "string",
               name: "newName",
               type: "string",
             },
           ],
           name: "setName",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "string",
+              name: "uri",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "title",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "description",
+              type: "string",
+            },
+          ],
+          name: "submitDocument",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "submissionId",
+              type: "uint256",
+            },
+            {
+              internalType: "enum Recommendation",
+              name: "rec",
+              type: "uint8",
+            },
+          ],
+          name: "submitReview",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "submissionId",
+              type: "uint256",
+            },
+            {
+              internalType: "string",
+              name: "uri",
+              type: "string",
+            },
+          ],
+          name: "submitRevision",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
@@ -609,31 +916,64 @@ const deployedContracts = {
           type: "function",
         },
         {
+          inputs: [
+            {
+              internalType: "address",
+              name: "newOwner",
+              type: "address",
+            },
+          ],
+          name: "transferOwnership",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
           stateMutability: "payable",
           type: "receive",
         },
       ],
       inheritedFunctions: {
-        addRevision: "contracts/JAuthor.sol",
-        addSubmission: "contracts/JAuthor.sol",
-        approve: "contracts/JAuthor.sol",
-        balanceOf: "contracts/JAuthor.sol",
-        getApproved: "contracts/JAuthor.sol",
-        getProfile: "contracts/JAuthor.sol",
-        getSubmissionByAuthor: "contracts/JAuthor.sol",
-        getSubmissionById: "contracts/JAuthor.sol",
-        isApprovedForAll: "contracts/JAuthor.sol",
-        isAvailable: "contracts/JAuthor.sol",
-        name: "contracts/JAuthor.sol",
-        ownerOf: "contracts/JAuthor.sol",
-        register: "contracts/JAuthor.sol",
-        safeTransferFrom: "contracts/JAuthor.sol",
-        setApprovalForAll: "contracts/JAuthor.sol",
-        setName: "contracts/JAuthor.sol",
-        supportsInterface: "contracts/JAuthor.sol",
-        symbol: "contracts/JAuthor.sol",
-        tokenURI: "contracts/JAuthor.sol",
-        transferFrom: "contracts/JAuthor.sol",
+        owner: "@openzeppelin/contracts/access/Ownable.sol",
+        renounceOwnership: "@openzeppelin/contracts/access/Ownable.sol",
+        transferOwnership: "@openzeppelin/contracts/access/Ownable.sol",
+        accept: "contracts/JEditor.sol",
+        addAreaEditor: "contracts/JEditor.sol",
+        addAssociateEditor: "contracts/JEditor.sol",
+        approve: "contracts/JEditor.sol",
+        approveSubmission: "contracts/JEditor.sol",
+        areaEditors: "contracts/JEditor.sol",
+        associateEditors: "contracts/JEditor.sol",
+        balanceOf: "contracts/JEditor.sol",
+        chiefEditor: "contracts/JEditor.sol",
+        comment: "contracts/JEditor.sol",
+        getApproved: "contracts/JEditor.sol",
+        getProfile: "contracts/JEditor.sol",
+        getSubmissionByAreaEditor: "contracts/JEditor.sol",
+        getSubmissionByAssociateEditor: "contracts/JEditor.sol",
+        getSubmissionByAuthor: "contracts/JEditor.sol",
+        getSubmissionById: "contracts/JEditor.sol",
+        isApprovedForAll: "contracts/JEditor.sol",
+        isAvailable: "contracts/JEditor.sol",
+        name: "contracts/JEditor.sol",
+        ownerOf: "contracts/JEditor.sol",
+        proposeReviewers: "contracts/JEditor.sol",
+        qualifySubmission: "contracts/JEditor.sol",
+        register: "contracts/JEditor.sol",
+        reject: "contracts/JEditor.sol",
+        rejectSubmission: "contracts/JEditor.sol",
+        rejectWhenFiltering: "contracts/JEditor.sol",
+        revise: "contracts/JEditor.sol",
+        safeTransferFrom: "contracts/JEditor.sol",
+        setApprovalForAll: "contracts/JEditor.sol",
+        setName: "contracts/JEditor.sol",
+        submitDocument: "contracts/JEditor.sol",
+        submitReview: "contracts/JEditor.sol",
+        submitRevision: "contracts/JEditor.sol",
+        supportsInterface: "contracts/JEditor.sol",
+        symbol: "contracts/JEditor.sol",
+        tokenURI: "contracts/JEditor.sol",
+        transferFrom: "contracts/JEditor.sol",
       },
     },
   },

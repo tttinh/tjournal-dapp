@@ -1,24 +1,18 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.0 <0.9.0;
 
-import "./JAuthor.sol";
+import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
+import "./JEditor.sol";
 
 /**
  * A smart contract that simulates the peer review process of a scientific journal.
  * @author TinhTT
  */
-contract Journal is JAuthor {
-	// /// @dev Make a comment on a submission.
-	// function comment(
-	// 	uint256 submissionId,
-	// 	string memory content
-	// ) external validUser validSubmissionId(submissionId) {
-	// 	Submission storage s = submissions[submissionId - 1];
-	// 	Comment storage c = s.comments.push();
-	// 	c.content = content;
-	// 	c.createdAt = block.timestamp;
-	// 	c.createdBy = users[msg.sender];
-	// }
+contract Journal is Ownable, JEditor {
+	/// @dev Set the editor-in-chief.
+	function setEIC(address eic) external onlyOwner {
+		chiefEditor = eic;
+	}
 
 	/// @dev Prevent the contract from accidentally receiving ETH.
 	receive() external payable {

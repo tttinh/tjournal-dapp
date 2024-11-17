@@ -20,20 +20,10 @@ enum Recommendation {
 	REVISION
 }
 
-/// @dev Different roles in our journal.
-enum Role {
-	EIC,
-	AREA_EDITOR,
-	ASSOCIATE_EDITOR,
-	REVIEWER,
-	AUTHOR
-}
-
 /// @dev A struct that holds user's information.
 struct Profile {
 	address id;
 	string name;
-	Role role;
 }
 
 /// @dev Comment represents a comment for a submission.

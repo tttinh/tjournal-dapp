@@ -1,11 +1,11 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.0 <0.9.0;
 
-import "./Base.sol";
+import "./JAuthor.sol";
 
 /// @title A facet of Journal that manages APIs for reviewers.
 /// @author Tinh Tran
-contract JReviewer is JBase {
+contract JReviewer is JAuthor {
 	/// @dev Access modifier for reviewer-only functionality
 	modifier onlyReviewer(uint256 submissionId) {
 		require(
@@ -25,11 +25,12 @@ contract JReviewer is JBase {
 		_;
 	}
 
+	/// @dev A Reviewer submits a recommendation.
 	function submitReview(
 		uint256 submissionId,
 		Recommendation rec
 	)
-		external
+		public
 		onlyReviewer(submissionId)
 		atStage(submissionId, SubmissionStage.REVIEWING)
 	{

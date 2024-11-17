@@ -32,7 +32,7 @@ contract JProfile is JDocument {
 		if (bytes(users[msg.sender].name).length > 0)
 			revert AlreadyRegistered();
 
-		users[msg.sender] = Profile(msg.sender, name, Role.AUTHOR);
+		users[msg.sender] = Profile(msg.sender, name);
 	}
 
 	/// @dev Everyone can update their name if available.

@@ -8,7 +8,6 @@ import "./JProfile.sol";
 contract JSubmission is JProfile {
 	// Errors
 	error BadStage();
-	error Forbidden();
 
 	/// @dev An array containing all Submissions in existence. The ID
 	/// of each submission is actually an index into this array.
@@ -17,6 +16,15 @@ contract JSubmission is JProfile {
 
 	/// @dev A mapping from author addresses to their submission ids.
 	mapping(address => uint256[]) author2Submissions;
+
+	/// @dev A mapping from reviewer addresses to their submission ids.
+	mapping(address => uint256[]) reviewer2Submissions;
+
+	/// @dev A mapping from area editor addresses to their submission ids.
+	mapping(address => uint256[]) areaEditor2Submissions;
+
+	/// @dev A mapping from associate editor addresses to their submission ids.
+	mapping(address => uint256[]) editor2Submissions;
 
 	/// @dev Change the current stage to the new one after an operation.
 	modifier nextStage(uint256 submissionId, SubmissionStage next) {
@@ -39,6 +47,18 @@ contract JSubmission is JProfile {
 			"Invalid submission id"
 		);
 		_;
+	}
+
+	/// @dev Make a comment on a submission.
+	function comment(
+		uint256 submissionId,
+		string memory content
+	) public validUser validSubmissionId(submissionId) {
+		Submission storage s = submissions[submissionId - 1];
+		Comment storage c = s.comments.push();
+		c.content = content;
+		c.createdAt = block.timestamp;
+		c.createdBy = users[msg.sender];
 	}
 
 	/// @dev Retrieve a submission detail based on its id.
@@ -68,5 +88,19 @@ contract JSubmission is JProfile {
 		address author
 	) public view returns (uint256[] memory) {
 		return author2Submissions[author];
+	}
+
+	/// @dev Retrieve submissions by area editor.
+	function getSubmissionByAreaEditor(
+		address editor
+	) public view returns (uint256[] memory) {
+		return areaEditor2Submissions[editor];
+	}
+
+	/// @dev Retrieve submissions by associate editor.
+	function getSubmissionByAssociateEditor(
+		address editor
+	) public view returns (uint256[] memory) {
+		return editor2Submissions[editor];
 	}
 }

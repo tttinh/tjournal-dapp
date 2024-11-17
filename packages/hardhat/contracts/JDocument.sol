@@ -10,7 +10,7 @@ import { ERC721URIStorage, ERC721 } from "@openzeppelin/contracts/token/ERC721/e
 contract JDocument is ERC721URIStorage {
 	uint256 private _nextTokenId;
 
-	constructor() ERC721("JournalDocument", "JDOC") {}
+	constructor() ERC721("Journal", "JDOC") {}
 
 	function _mintDocument(
 		address author,

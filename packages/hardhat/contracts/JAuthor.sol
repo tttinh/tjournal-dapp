@@ -18,7 +18,7 @@ contract JAuthor is JSubmission {
 	}
 
 	/// @dev An author submits a new document.
-	function addSubmission(
+	function submitDocument(
 		string calldata uri,
 		string calldata title,
 		string calldata description
@@ -37,7 +37,7 @@ contract JAuthor is JSubmission {
 	}
 
 	/// @dev An author submits a new revision.
-	function addRevision(
+	function submitRevision(
 		uint256 submissionId,
 		string calldata uri
 	) public onlyAuthor(submissionId) {
