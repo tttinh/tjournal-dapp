@@ -125,7 +125,7 @@ contract JEditor is JReviewer {
 
 	/// @dev The area editor decides that the paper is qualified for the next stage.
 	/// An associate editor is assigned to handle the next phase.
-	function proposeReviewers(
+	function assignReviewers(
 		uint256 submissionId,
 		address[] calldata reviewers
 	)

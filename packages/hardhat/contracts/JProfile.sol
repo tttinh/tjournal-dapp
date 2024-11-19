@@ -7,15 +7,15 @@ import "./JDocument.sol";
 /// @title A facet of Journal that manages APIs related to users profiles.
 /// @author Tinh Tran
 contract JProfile is JDocument {
+	// Events
+	event NameUpdated(address indexed setter, string newName);
+
 	// Errors
 	error AlreadyRegistered();
 
 	// State variables
 	mapping(address => Profile) users;
 	mapping(string => bool) usedNames;
-
-	// Events: a way to emit log statements from smart contract that can be listened to by external parties
-	event NameChange(address indexed setter, string newName);
 
 	/// @dev Make sure the user is valid.
 	modifier validUser() {
@@ -45,7 +45,7 @@ contract JProfile is JDocument {
 		usedNames[newName] = true;
 		usedNames[oldName] = false;
 
-		emit NameChange(msg.sender, newName);
+		emit NameUpdated(msg.sender, newName);
 	}
 
 	/// @dev Retrieve a user profile.
