@@ -94,6 +94,62 @@ const deployedContracts = {
             {
               indexed: true,
               internalType: "address",
+              name: "author",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "submissionId",
+              type: "uint256",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "uri",
+              type: "string",
+            },
+          ],
+          name: "NewRevision",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "author",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "uri",
+              type: "string",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "title",
+              type: "string",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "description",
+              type: "string",
+            },
+          ],
+          name: "NewSubmission",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
               name: "previousOwner",
               type: "address",
             },
@@ -105,6 +161,31 @@ const deployedContracts = {
             },
           ],
           name: "OwnershipTransferred",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "uint256",
+              name: "id",
+              type: "uint256",
+            },
+            {
+              indexed: false,
+              internalType: "enum SubmissionStage",
+              name: "oldStage",
+              type: "uint8",
+            },
+            {
+              indexed: false,
+              internalType: "enum SubmissionStage",
+              name: "newStage",
+              type: "uint8",
+            },
+          ],
+          name: "SubmissionStageChange",
           type: "event",
         },
         {
@@ -566,6 +647,19 @@ const deployedContracts = {
           type: "function",
         },
         {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "submissionId",
+              type: "uint256",
+            },
+          ],
+          name: "needFurtherReviews",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
           inputs: [],
           name: "owner",
           outputs: [
@@ -957,6 +1051,7 @@ const deployedContracts = {
         isApprovedForAll: "contracts/JEditor.sol",
         isAvailable: "contracts/JEditor.sol",
         name: "contracts/JEditor.sol",
+        needFurtherReviews: "contracts/JEditor.sol",
         ownerOf: "contracts/JEditor.sol",
         qualifySubmission: "contracts/JEditor.sol",
         register: "contracts/JEditor.sol",

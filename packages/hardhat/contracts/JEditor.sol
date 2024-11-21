@@ -132,10 +132,18 @@ contract JEditor is JReviewer {
 		public
 		onlyAssociateEditor(submissionId)
 		atStage(submissionId, SubmissionStage.FILTERED)
+		nextStage(submissionId, SubmissionStage.REVIEWING)
 	{
 		Submission storage s = submissions[submissionId - 1];
 		require(s.reviewers.length == 0, "Already assigned reviewers");
 		s.reviewers = reviewers;
+		for (uint256 i = 0; i < reviewers.length; i++) {
+			console.log(
+				"Reviewer %s is assigned to submission %s",
+				reviewers[i],
+				submissionId
+			);
+		}
 	}
 
 	/// @dev The associate editor accepts the submission based on reviewer's recommendations.
@@ -166,5 +174,27 @@ contract JEditor is JReviewer {
 		onlyAssociateEditor(submissionId)
 		atStage(submissionId, SubmissionStage.REVIEWED)
 		nextStage(submissionId, SubmissionStage.REVISING)
-	{}
+	{
+		Submission storage s = submissions[submissionId - 1];
+		for (uint256 i = 0; i < s.reviewers.length; i++) {
+			s.submittedReviews[s.reviewers[i]] = false;
+			s.reviews.pop();
+		}
+	}
+
+	/// @dev The associate editor decides further review is neccessary.
+	function needFurtherReviews(
+		uint256 submissionId
+	)
+		public
+		onlyAssociateEditor(submissionId)
+		atStage(submissionId, SubmissionStage.REVIEWED)
+		nextStage(submissionId, SubmissionStage.REVIEWING)
+	{
+		Submission storage s = submissions[submissionId - 1];
+		for (uint256 i = 0; i < s.reviewers.length; i++) {
+			s.submittedReviews[s.reviewers[i]] = false;
+			s.reviews.pop();
+		}
+	}
 }

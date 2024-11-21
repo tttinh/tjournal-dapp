@@ -33,6 +33,7 @@ contract JProfile is JDocument {
 			revert AlreadyRegistered();
 
 		users[msg.sender] = Profile(msg.sender, name);
+		console.log("A new user %s registers with name:%s", msg.sender, name);
 	}
 
 	/// @dev Everyone can update their name if available.

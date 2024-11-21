@@ -6,6 +6,12 @@ import "./JProfile.sol";
 /// @title Base contract for Journal. Holds base variables and methods.
 /// @author Tinh Tran
 contract JSubmission is JProfile {
+	event SubmissionStageChange(
+		uint256 indexed id,
+		SubmissionStage oldStage,
+		SubmissionStage newStage
+	);
+
 	// Errors
 	error BadStage();
 
@@ -29,8 +35,18 @@ contract JSubmission is JProfile {
 	/// @dev Change the current stage to the new one after an operation.
 	modifier nextStage(uint256 submissionId, SubmissionStage next) {
 		_;
+
 		Submission storage s = submissions[submissionId - 1];
-		s.stage = next;
+		if (s.stage != next) {
+			emit SubmissionStageChange(submissionId, s.stage, next);
+			console.log(
+				"Submission %s changes from %s to %s",
+				submissionId,
+				uint256(s.stage),
+				uint256(next)
+			);
+			s.stage = next;
+		}
 	}
 
 	/// @dev Make sure the submission is in the correct stage before an operation.
@@ -59,6 +75,13 @@ contract JSubmission is JProfile {
 		c.content = content;
 		c.createdAt = block.timestamp;
 		c.createdBy = users[msg.sender];
+
+		console.log(
+			"User % comment on submission %s, message: %s",
+			msg.sender,
+			submissionId,
+			content
+		);
 	}
 
 	/// @dev Retrieve a submission detail based on its id.

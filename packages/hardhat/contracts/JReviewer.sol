@@ -40,6 +40,12 @@ contract JReviewer is JAuthor {
 		s.reviews.push(rec);
 
 		if (s.reviews.length == s.reviewers.length) {
+			console.log(
+				"Submission %s changes from %s to %s",
+				submissionId,
+				uint256(s.stage),
+				uint256(SubmissionStage.REVIEWED)
+			);
 			s.stage = SubmissionStage.REVIEWED;
 		}
 	}
